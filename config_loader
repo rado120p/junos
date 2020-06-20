@@ -9,11 +9,11 @@ hosts_configs = {}
 
 hosts_confs = {
 
-        '' : '',
+        '' : '', # format as 'config file name' : 'router's management IP address'
 
 }
 
-conf_path = raw_input("Type in the path to the configs: ")
+conf_path = raw_input("Paste in the path to the directory with config files: ")
 
 for router in sorted(hosts_confs):
         conf_name = conf_path + router + '.conf'
