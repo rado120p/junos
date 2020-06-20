@@ -1,0 +1,37 @@
+#!/usr/bin/python
+
+from jnpr.junos import Device
+from jnpr.junos.utils.config import Config
+
+conf_list = []
+router_list = []
+hosts_configs = {}
+
+hosts_confs = {
+
+        '' : '',
+
+}
+
+conf_path = raw_input("Type in the path to the configs: ")
+
+for router in sorted(hosts_confs):
+        conf_name = conf_path + router + '.conf'
+        conf_list.append(conf_name)
+print conf_list
+for ip in sorted(hosts_confs.values()):
+        router_list.append(ip)
+print router_list
+
+for router_ip, conf_name in zip(router_list, conf_list):
+        hosts_configs.update( {router_ip : conf_name} )
+
+print hosts_configs
+
+for r_ip, c_name in hosts_configs.items():
+        dev = Device(host=r_ip, user='root', password='Juniper').open()
+        with Config(dev, mode='private') as cu:
+                cu.load(path=c_name, merge=True)
+                cu.commit()
+
+        dev.close()
